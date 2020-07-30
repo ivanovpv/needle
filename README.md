@@ -7,30 +7,30 @@ Upgrade of well-known multithreading library for Android.
   2. Added `Preparable` interface, which supports `AsyncTask` alike `prepare()` executed in UI 
      thread to prepare UI elements before runnung thread 
 
-`
-Needle.onMainThread().execute(new Runnable() {
-    @Override
-    public void run() {
-        // e.g. change one of the views
-    }
-});
-`
+
+     Needle.onMainThread().execute(new Runnable() {
+       @Override
+       public void run() {
+           // e.g. change one of the views
+       }
+     });
+
 
 or
 
-`
-Needle.onBackgroundThread().execute(new Preparable() {
-    @Override
-    public void prepare() {
-       //do smth to prepare UI, e.g. show progressbar
-    }
+
+    Needle.onBackgroundThread().execute(new Preparable() {
+       @Override
+       public void prepare() {
+          //do smth to prepare UI, e.g. show progressbar
+       }
     
-    @Override
-    public void run() {
+       @Override
+       public void run() {
         // e.g. do background job
-    }
-});
-`
+       }
+    });
+
 
 License
 --------
