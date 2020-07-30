@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 import android.os.Handler;
 import android.os.Looper;

@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 import static org.junit.Assert.assertEquals;
 

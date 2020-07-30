@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 abstract class AbstractCancelableRunnable implements CancelableRunnable {
 

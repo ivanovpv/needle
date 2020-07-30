@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 public interface CancelableRunnable extends Runnable {
 

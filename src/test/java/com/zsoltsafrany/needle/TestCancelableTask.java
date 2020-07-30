@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 public class TestCancelableTask extends CancelableTask {
 

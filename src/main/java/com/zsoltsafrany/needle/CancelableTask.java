@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 /**
  * This is a task that can be canceled with {@code cancel()}.

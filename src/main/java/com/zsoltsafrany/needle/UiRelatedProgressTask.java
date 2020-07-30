@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 /**
  * Use for tasks where you first want to do some work (usually on a background thread) and then some UI-related work
@@ -11,7 +11,7 @@ package needle;
  *
  * @param <Result>   Type of the result that is passed to thenDoUiRelatedWork() from doWork()
  * @param <Progress> Type of the progress that is passed to onProgressUpdate() from publishProgress()
- * @see needle.UiRelatedTask
+ * @see com.zsoltsafrany.needle.UiRelatedTask
  */
 public abstract class UiRelatedProgressTask<Result, Progress> extends UiRelatedTask<Result> implements CancelableRunnable {
 

@@ -1,4 +1,4 @@
-package needle;
+package com.zsoltsafrany.needle;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,9 +11,9 @@ import java.util.concurrent.Executors;
  *
  * @see #onMainThread()
  * @see #onBackgroundThread()
- * @see needle.CancelableTask
- * @see needle.UiRelatedTask
- * @see needle.UiRelatedProgressTask
+ * @see com.zsoltsafrany.needle.CancelableTask
+ * @see com.zsoltsafrany.needle.UiRelatedTask
+ * @see com.zsoltsafrany.needle.UiRelatedProgressTask
  * @see <a href="http://github.com/ZsoltSafrany/needle">Needle on GitHub</a>
  */
 public class Needle {
@@ -70,6 +70,8 @@ public class Needle {
 
         @Override
         public void execute(Runnable runnable) {
+            if(runnable instanceof Preparable)
+                ((Preparable) runnable).prepare();
             getExecutor().execute(runnable);
         }
 
