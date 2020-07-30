@@ -3,17 +3,18 @@ Needle
 
 Upgrade of well-known multithreading library for Android.
 
-  1. Gradle support
-  2. Added `Preparable` interface, which supports `AsyncTask` alike `prepare()` executed in UI 
-     thread to prepare UI elements before runnung thread 
+1)Gradle support
+  
+2)Added `Preparable` interface, which supports `AsyncTask` alike `prepare()` executed in UI 
+   thread to prepare UI elements before runnung thread 
 
 
-     Needle.onMainThread().execute(new Runnable() {
+    Needle.onMainThread().execute(new Runnable() {
        @Override
        public void run() {
            // e.g. change one of the views
        }
-     });
+    });
 
 
 or
