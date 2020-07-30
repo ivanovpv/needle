@@ -7,6 +7,6 @@ import android.os.Looper;
 public abstract class UiRelatedTaskPreparable<Result> extends UiRelatedTask<Result> implements Preparable {
 
     @Override
-    public void prepare() {
+    public void prepareOnUi() {
     }
 }

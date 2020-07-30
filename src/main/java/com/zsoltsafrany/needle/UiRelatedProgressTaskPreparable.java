@@ -4,6 +4,6 @@ public abstract class UiRelatedProgressTaskPreparable<Result, Progress> extends
         UiRelatedProgressTask<Result, Progress> implements Preparable {
 
     @Override
-    public void prepare() {
+    public void prepareOnUi() {
     }
 }

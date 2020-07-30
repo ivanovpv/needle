@@ -71,7 +71,7 @@ public class Needle {
         @Override
         public void execute(Runnable runnable) {
             if(runnable instanceof Preparable)
-                ((Preparable) runnable).prepare();
+                ((Preparable) runnable).prepareOnUi();
             getExecutor().execute(runnable);
         }
 
