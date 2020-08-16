@@ -31,6 +31,9 @@ or
         }
     });
 
+Added Thread stack size definition, like:
+
+     Needle.onBackgroundThread().withThreadStackSize(16384).execute(task);
 
 License
 --------

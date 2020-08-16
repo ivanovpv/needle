@@ -28,4 +28,11 @@ public interface BackgroundThreadExecutor extends Executor {
      * @param poolSize Number of threads the executor will have in its thread pool
      */
     BackgroundThreadExecutor withThreadPoolSize(int poolSize);
+
+    /**
+     * Use this to set stack size for separate thread
+     *
+     * @param stackSize stack size in bytes
+     */
+    BackgroundThreadExecutor withThreadStackSize(long stackSize);
 }

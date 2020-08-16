@@ -3,7 +3,11 @@ package com.zsoltsafrany.needle;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Use this class to execute tasks on the UI/main or on a background thread. You can execute them concurrently or
@@ -20,6 +24,7 @@ public class Needle {
 
     public static final int DEFAULT_POOL_SIZE = 3;
     public static final String DEFAULT_TASK_TYPE = "default";
+    public static final long DEFAULT_STACK_SIZE = 0L; //0 means default for current JVM, depends on JVM
 
     private static Executor sMainThreadExecutor = new MainThreadExecutor();
 
@@ -43,6 +48,7 @@ public class Needle {
 
         private int mDesiredThreadPoolSize = DEFAULT_POOL_SIZE;
         private String mDesiredTaskType = DEFAULT_TASK_TYPE;
+        private long mThreadStackSize = DEFAULT_STACK_SIZE;
 
         @Override
         public BackgroundThreadExecutor serially() {
@@ -69,6 +75,16 @@ public class Needle {
         }
 
         @Override
+        public BackgroundThreadExecutor withThreadStackSize(long stackSize) {
+            if (stackSize < 0L) {
+                throw new IllegalArgumentException("Thread stack size cannot be less than 0");
+            }
+            mThreadStackSize = stackSize;
+            return this;
+        }
+
+
+        @Override
         public void execute(Runnable runnable) {
             if(runnable instanceof Preparable)
                 ((Preparable) runnable).prepareOnUi();
@@ -80,7 +96,11 @@ public class Needle {
             synchronized (ExecutorObtainer.class) {
                 Executor executor = sCachedExecutors.get(executorId);
                 if (executor == null) {
-                    executor = Executors.newFixedThreadPool(mDesiredThreadPoolSize);
+                    ThreadPoolExecutor threadPoolExecutor=new ThreadPoolExecutor(mDesiredThreadPoolSize, mDesiredThreadPoolSize,
+                            0L, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>());
+                    threadPoolExecutor.setThreadFactory(new NeedleThreadFactory(mThreadStackSize));
+                    executor = threadPoolExecutor;
+                    //executor = Executors.newFixedThreadPool(mDesiredThreadPoolSize);
                     sCachedExecutors.put(executorId, executor);
                 }
                 return executor;
@@ -113,4 +133,18 @@ public class Needle {
         }
     }
 
+    private static class NeedleThreadFactory implements ThreadFactory {
+        private static ThreadGroup threadGroup=new ThreadGroup("NeedleGroup");
+        private static AtomicInteger atomicInteger=new AtomicInteger(0);
+        private long mStackSize=0L;
+
+        NeedleThreadFactory(long stackSize) {
+            mStackSize = stackSize;
+        }
+        public Thread newThread(Runnable r) {
+            return new Thread(threadGroup, r,
+                    Integer.valueOf(atomicInteger.addAndGet(1)).toString()+"@needle",
+                    mStackSize);
+        }
+    }
 }
